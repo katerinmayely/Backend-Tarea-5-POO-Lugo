@@ -19,15 +19,18 @@ fetch("http://localhost:5000/usuarios", requestOptions)
         listaUsuarios();
     }).catch(error => console.log('error', error));
 
-//Obtener todas las categorias
-fetch("http://localhost:5000/categorias", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        categorias = result;
-        console.log(categorias);
-        pintandoCategoriasLugo();
-    }).catch(error => console.log('error', error));
-    
+mostrarCategorias();
+
+function mostrarCategorias(){
+    //Obtener todas las categorias
+    fetch("http://localhost:5000/categorias", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            categorias = result;
+            console.log(categorias);
+            pintandoCategoriasLugo();
+        }).catch(error => console.log('error', error));
+}
 
 // Generando listas de categorias para pintarlas en pantalla ya estilizadas
 function pintandoCategoriasLugo () {
@@ -296,17 +299,30 @@ function guardar() {
     let txtdescripcion = document.getElementById('txt-descripcion').value;
     let txtcolor = document.getElementById('txt-color').value;
     let txticono = document.getElementById('txt-icono').value;
-    let categoria = 
-    {
-        nombreCategoria:txtnombre,
-        descripcion:txtdescripcion,
-        color:txtcolor,
-        icono:txticono,
-        empresas:[]
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("nombreCategoria", txtnombre);
+    urlencoded.append("descripcion", txtdescripcion);
+    urlencoded.append("color", txtcolor);
+    urlencoded.append("icono", txticono);
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
     };
-    categorias.push(categoria);
-    pintandoCategoriasLugo();
+
+    fetch("http://localhost:5000/categorias", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
     $('#modalPedidos').modal('hide');
     $('#modalCategorias').modal('hide');
-    $('#modalCreacionCategoria').modal('show');
+    $('#modalCreacionCategoria').modal('hide');
+    mostrarCategorias();
 }

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const schema = new mongoose_1.default.Schema({
-    _id: mongoose_1.default.Types.ObjectId,
     nombreCategoria: String,
     descripcion: String,
     color: String,

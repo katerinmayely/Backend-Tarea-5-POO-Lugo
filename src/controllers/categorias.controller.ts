@@ -83,7 +83,7 @@ export const obtenerProducto = (req:Request, res:Response) => {
     }).catch(error => {
         res.send(error);
     })
-}
+};
 
 export const addCategoria = (req:Request, res:Response) => {
 
@@ -92,13 +92,13 @@ export const addCategoria = (req:Request, res:Response) => {
         descripcion: req.body.descripcion,
         color: req.body.color,
         icono: req.body.icono,
-        empresas: req.body.empresas
+        empresas: []
     });
-
+    
     nvaCategoria.save().then(result => {
-        res.send({mensaje: 'Categoria agregada', result});
+        res.send('Se guardó');
         res.end();
     }).catch(error => {
-        console.error(error);
+        res.send('Ocurrió un error');
     });
-} 
+} ;
